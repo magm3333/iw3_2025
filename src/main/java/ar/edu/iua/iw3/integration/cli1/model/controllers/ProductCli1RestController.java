@@ -21,6 +21,7 @@ import ar.edu.iua.iw3.integration.cli1.model.business.IProductCli1Business;
 import ar.edu.iua.iw3.model.business.BusinessException;
 import ar.edu.iua.iw3.model.business.FoundException;
 import ar.edu.iua.iw3.model.business.NotFoundException;
+import ar.edu.iua.iw3.model.business.ValidationException;
 import ar.edu.iua.iw3.util.IStandartResponseBusiness;
 
 @RestController
@@ -78,6 +79,9 @@ public class ProductCli1RestController extends BaseRestController {
 			HttpHeaders responseHeaders = new HttpHeaders();
 			responseHeaders.set("location", Constants.URL_INTEGRATION_CLI1 + "/products/" + response.getCodCli1());
 			return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+		} catch (ValidationException e) { 
+			return new ResponseEntity<>(response.build(HttpStatus.BAD_REQUEST, e, e.getMessage()), 
+					HttpStatus.BAD_REQUEST);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(response.build(HttpStatus.INTERNAL_SERVER_ERROR, e, e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);
@@ -86,6 +90,4 @@ public class ProductCli1RestController extends BaseRestController {
 		}
 	}
 
-
 }
-

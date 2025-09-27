@@ -17,6 +17,7 @@ import ar.edu.iua.iw3.model.business.FoundException;
 import ar.edu.iua.iw3.model.business.ICategoryBusiness;
 import ar.edu.iua.iw3.model.business.IProductBusiness;
 import ar.edu.iua.iw3.model.business.NotFoundException;
+import ar.edu.iua.iw3.model.business.ValidationException;
 import ar.edu.iua.iw3.util.JsonUtiles;
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,7 +69,6 @@ public class ProductCli1Business implements IProductCli1Business {
 			throw FoundException.builder().message("Se encontró el Producto código=" + product.getCodCli1()).build();
 		}
 
-
 		try {
 			return productDAO.save(product);
 		} catch (Exception e) {
@@ -76,14 +76,14 @@ public class ProductCli1Business implements IProductCli1Business {
 			throw BusinessException.builder().ex(e).build();
 		}
 	}
-	
+
 	@Autowired(required = false)
 	private ICategoryBusiness categoryBusiness;
 
 	@Override
-	public ProductCli1 addExternal(String json) throws FoundException, BusinessException {
+	public ProductCli1 addExternal(String json) throws FoundException, BusinessException, ValidationException {
 		ObjectMapper mapper = JsonUtiles.getObjectMapper(ProductCli1.class,
-				new ProductCli1JsonDeserializer(ProductCli1.class, categoryBusiness),null);
+				new ProductCli1JsonDeserializer(ProductCli1.class, categoryBusiness), null);
 		ProductCli1 product = null;
 		try {
 			product = mapper.readValue(json, ProductCli1.class);
@@ -92,9 +92,15 @@ public class ProductCli1Business implements IProductCli1Business {
 			throw BusinessException.builder().ex(e).build();
 		}
 
+		// Validación del nombre
+		if (product.getProduct() == null || product.getProduct().isBlank()) {
+			throw ValidationException.builder().
+			message("El nombre del producto no puede ser nulo ni vacío")
+			.build();
+		}
+		
 		return add(product);
 
 	}
-
 
 }

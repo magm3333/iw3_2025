@@ -83,9 +83,10 @@ public class ProductCli1RestController extends BaseRestController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (FoundException e) {
 			return new ResponseEntity<>(response.build(HttpStatus.FOUND, e, e.getMessage()), HttpStatus.FOUND);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
 		}
 	}
 
-
 }
-

@@ -15,7 +15,6 @@ import ar.edu.iua.iw3.util.JsonUtiles;
 
 public class ProductCli1JsonDeserializer extends StdDeserializer<ProductCli1> {
 
-
 	protected ProductCli1JsonDeserializer(Class<?> vc) {
 		super(vc);
 	}
@@ -36,6 +35,12 @@ public class ProductCli1JsonDeserializer extends StdDeserializer<ProductCli1> {
 				System.currentTimeMillis() + "");
 		String productDesc = JsonUtiles.getString(node,
 				"product,description,product_description,product_name".split(","), null);
+		// Si el campo 'product description' es nulo o vacío, lanzamos una excepción. Se tomo esta decisión para asegurar que
+		// siempre se proporcione una descripción del producto ya que se considera un campo obligatorio por la relevancia que tiene ya que no deberia poder
+		// existir un producto sin un nombre o descripcion.
+		if (productDesc == null || productDesc.trim().isEmpty()) {
+			throw new IllegalArgumentException("El campo 'product description' es obligatorio y no puede estar vacío.");
+		}
 		double price = JsonUtiles.getDouble(node, "product_price,price_product,price".split(","), 0);
 		boolean stock = JsonUtiles.getBoolean(node, "stock,in_stock".split(","), false);
 		r.setCodCli1(code);

@@ -15,5 +15,7 @@ public interface ProductCli2Respository extends JpaRepository<ProductCli2, Long>
 	public List<ProductCli2> findByExpirationDateBeforeOrderByExpirationDateDesc(Date expirationDate);
 	
 	public List<ProductCli2SlimView> findByOrderByPrecioDesc();
+
+    public Object findOneByProduct(String product);
 }
 

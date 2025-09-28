@@ -1,5 +1,6 @@
 package ar.edu.iua.iw3.util;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -89,6 +90,35 @@ public final class JsonUtiles {
 		for (String attr : attrs) {
 			if (node.get(attr) != null && node.get(attr).isBoolean()) {
 				r = node.get(attr).asBoolean();
+				break;
+			}
+		}
+		if (r == null)
+			r = defaultValue;
+		return r;
+	}
+
+	public static Date getDate(JsonNode node, String[] attrs, Date defaultValue) {
+		Date r = null;
+		for (String attr : attrs) {
+			if (node.get(attr) != null && node.get(attr).isTextual()) {
+				try {
+					r = Date.valueOf(node.get(attr).asText());
+					break;
+				} catch (IllegalArgumentException e) {
+				}
+			}
+		}
+		if (r == null)
+			r = defaultValue;
+		return r;
+	}
+
+	public static Long getLong(JsonNode node, String[] attrs, Long defaultValue) {
+		Long r = null;
+		for (String attr : attrs) {
+			if (node.get(attr) != null && node.get(attr).isLong()) {
+				r = node.get(attr).asLong();
 				break;
 			}
 		}

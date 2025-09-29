@@ -29,7 +29,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(length = 100, unique=true)
+	@Column(length = 100, unique=true, nullable = false)
 	private String product;
 
 	@Column(columnDefinition = "tinyint default 0")

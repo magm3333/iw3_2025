@@ -25,7 +25,7 @@ import ar.edu.iua.iw3.util.IStandartResponseBusiness;
 
 @RestController
 @RequestMapping(Constants.URL_INTEGRATION_CLI1 + "/products")
-@Profile("cli1")
+@Profile({"cli1","mysqlprod"})
 public class ProductCli1RestController extends BaseRestController {
 
 	@Autowired

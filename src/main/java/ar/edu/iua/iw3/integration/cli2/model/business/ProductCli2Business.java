@@ -43,7 +43,7 @@ public class ProductCli2Business implements IProductCli2Business {
 	@Override
 	public List<ProductCli2> listPriceAll() throws BusinessException {
 		try {
-			return productDAO.findAllOrderByPrecioDesc();
+			return productDAO.findAllByOrderByPrecioAsc();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw BusinessException.builder().ex(e).build();
@@ -73,7 +73,7 @@ public class ProductCli2Business implements IProductCli2Business {
 	
 	public List<ProductCli2> listStartPrice(Double startPrice) throws BusinessException{
 		try {
-			return productDAO.findByPrecioGreaterThanOrderByPrecioDesc(startPrice);
+			return productDAO.findByPrecioGreaterThanOrderByPrecio(startPrice);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw BusinessException.builder().ex(e).build();
@@ -82,7 +82,7 @@ public class ProductCli2Business implements IProductCli2Business {
 	
 	public List<ProductCli2> listEndPrice(Double endPrice) throws BusinessException {
 		try {
-			return productDAO.findByPrecioLessThanOrderByPrecioDesc(endPrice);
+			return productDAO.findByPrecioLessThanOrderByPrecio(endPrice);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw BusinessException.builder().ex(e).build();
@@ -91,7 +91,7 @@ public class ProductCli2Business implements IProductCli2Business {
 	
 	public List<ProductCli2> listBetweenStartEndPrice(Double startPrice, Double endPrice) throws BusinessException {
 		try {
-			return productDAO.findByPrecioBetweenOrderByPrecioDesc(startPrice, endPrice);
+			return productDAO.findByPrecioBetweenOrderByPrecio(startPrice, endPrice);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw BusinessException.builder().ex(e).build();

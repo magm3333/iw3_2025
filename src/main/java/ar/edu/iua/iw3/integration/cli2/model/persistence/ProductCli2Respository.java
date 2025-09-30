@@ -15,13 +15,13 @@ import ar.edu.iua.iw3.model.business.BusinessException;
 public interface ProductCli2Respository extends JpaRepository<ProductCli2, Long> {
 	public List<ProductCli2> findByExpirationDateBeforeOrderByExpirationDateDesc(Date expirationDate);
 	
-	public List<ProductCli2> findAll();
+	public List<ProductCli2> findAllOrderByPrecioDesc();
 	
-	public List<ProductCli2> findByPrecioGreaterThan(Double startPrice);
+	public List<ProductCli2> findByPrecioGreaterThanOrderByPrecioDesc(Double startPrice);
 	
-	public List<ProductCli2> findByPrecioLessThan(Double endPrice);
+	public List<ProductCli2> findByPrecioLessThanOrderByPrecioDesc(Double endPrice);
 	
-	public List<ProductCli2> findByPrecioBetween(Double startPrice, Double endPrice);
+	public List<ProductCli2> findByPrecioBetweenOrderByPrecioDesc(Double startPrice, Double endPrice);
 	
 	public List<ProductCli2SlimView> findByOrderByPrecioDesc();
 }

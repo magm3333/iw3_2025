@@ -36,7 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(Constants.URL_INTEGRATION_CLI2 + "/products")
 @Slf4j
-@Profile("cli2")
+// @Profile("cli2")
+@Profile("mysqlprod")
 public class ProductCli2RestController extends BaseRestController {
 
 	@Autowired

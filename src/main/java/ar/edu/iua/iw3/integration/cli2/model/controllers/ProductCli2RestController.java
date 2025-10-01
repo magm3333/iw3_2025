@@ -36,8 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(Constants.URL_INTEGRATION_CLI2 + "/products")
 @Slf4j
-// @Profile("cli2")
-@Profile("mysqlprod")
+@Profile("cli2")
+//@Profile("mysqlprod")
 public class ProductCli2RestController extends BaseRestController {
 
 	@Autowired
@@ -94,6 +94,34 @@ public class ProductCli2RestController extends BaseRestController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
+	
+
+	@GetMapping(value = "/list-by-price", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> listByPrice(
+			@RequestParam(name = "start-price", required = false, defaultValue = "0.0") Double startPrice,
+			@RequestParam(name = "end-price", required = false)Double endPrice) {
+		try {
+				if(endPrice == null) 
+				{
+		            endPrice = Double.MAX_VALUE;
+				}
+			
+				StdSerializer<ProductCli2> ser = null;
+				ser = new ProductCli2SlimV1JsonSerializer(ProductCli2.class, false);
+			
+				String result = JsonUtiles.getObjectMapper(ProductCli2.class, ser, null)
+					.writeValueAsString(productBusiness.listByPrice(startPrice, endPrice));
+
+			
+				log.debug("start-price: " + startPrice.toString() +" end-price: " + endPrice.toString());
+				return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (BusinessException  | JsonProcessingException e ) {
+			return new ResponseEntity<>(response.build(HttpStatus.INTERNAL_SERVER_ERROR, e, e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
 
 }
 

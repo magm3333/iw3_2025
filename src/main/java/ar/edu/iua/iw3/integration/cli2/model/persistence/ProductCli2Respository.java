@@ -17,5 +17,8 @@ public interface ProductCli2Respository extends JpaRepository<ProductCli2, Long>
 	public List<ProductCli2SlimView> findByOrderByPrecioDesc();
 
     public Object findOneByProduct(String product);
+    
+    // entre startPrice y endPrice
+    List<ProductCli2> findByPrecioBetweenOrderByPrecioDesc(Double startPrice, Double endPrice);
 }
 

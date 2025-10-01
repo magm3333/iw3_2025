@@ -96,5 +96,19 @@ public class ProductCli2Business implements IProductCli2Business {
 		return add(product);
 
 	}
+	
+	@Override
+	public List<ProductCli2> listByPrice(Double startPrice, Double endPrice) throws BusinessException {
+		
+		try 
+		{
+			return productDAO.findByPrecioBetweenOrderByPrecioDesc(startPrice, endPrice);
+		}
+		catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw BusinessException.builder().ex(e).build();
+		}
+	
+	}
 
 }
